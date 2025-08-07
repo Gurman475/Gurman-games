@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Fun Game</title>
+  <style>
+    body { text-align: center; font-family: Arial, sans-serif; margin-top: 100px; }
+    #score { font-size: 24px; margin: 20px; color: green; }
+    button { font-size: 20px; padding: 10px 20px; }
+    a { display: block; margin-top: 30px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>Simple Fun Game</h1>
+  <div id="score">Score: 0</div>
+  <button onclick="increaseScore()">Click Me!</button>
+
+  <script>
+    let score = 0;
+    function increaseScore() {
+      score++;
+      document.getElementById("score").innerText = "Score: " + score;
+    }
+  </script>
+
+  <a href="game2.html">Play Adventure Game</a>
+</body>
+</html>
+
+
+
