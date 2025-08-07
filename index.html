@@ -27,14 +27,32 @@
       flex-wrap: wrap;
       justify-content: center;
       margin-top: 20px;
+      padding: 10px;
     }
     .game {
       background: white;
       border: 1px solid #ccc;
       margin: 10px;
       padding: 15px;
-      width: 200px;
+      width: 250px;
       box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      border-radius: 10px;
+    }
+    .game h3 {
+      margin-top: 0;
+    }
+    .game a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #28a745;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+    .game a:hover {
+      background: #218838;
     }
     footer {
       background: #222;
@@ -58,14 +76,13 @@
     <div class="game">
       <h3>Game 1</h3>
       <p>Simple fun game</p>
-      <a href="#">Play Now</a>
+      <a href="Game1.html">Play Now</a>
     </div>
     <div class="game">
       <h3>Game 2</h3>
       <p>Adventure game</p>
-      <a href="#">Play Now</a>
+      <a href="Game2.html">Play Now</a>
     </div>
-    <!-- Add more games as needed -->
   </section>
 
   <footer>
@@ -73,4 +90,3 @@
   </footer>
 </body>
 </html>
-
