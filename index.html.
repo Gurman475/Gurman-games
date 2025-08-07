@@ -72,3 +72,4 @@ game1_path.write_text(game1_html)
 game2_path.write_text(game2_html)
 
 game1_path.name, game2_path.name
+
