@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Speed Click</title>
+  <style>
+    body {
+      background: #ffe4e1;
+      text-align: center;
+      font-family: sans-serif;
+    }
+    #box {
+      width: 100px;
+      height: 100px;
+      background: red;
+      position: absolute;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Speed Click 🎯</h1>
+  <p>Click the box before it disappears!</p>
+  <div id="box"></div>
+
+  <script>
+    let box = document.getElementById("box");
+    function moveBox() {
+      let x = Math.random() * 300;
+      let y = Math.random() * 300;
+      box.style.left = x + "px";
+      box.style.top = y + "px";
+      box.style.display = "block";
+    }
+    box.onclick = function () {
+      box.style.display = "none";
+      setTimeout(moveBox, 1000);
+    };
+    setTimeout(moveBox, 1000);
+  </script>
+</body>
+</html>
