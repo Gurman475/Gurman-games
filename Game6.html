@@ -1,32 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Reaction Test</title>
+  <meta charset="UTF-8">
+  <title>Reaction Time Test</title>
   <style>
     body {
-      background: #ffe082;
+      font-family: Arial, sans-serif;
       text-align: center;
-      font-family: sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      padding-top: 50px;
     }
-    #screen {
-      width: 300px;
-      height: 300px;
-      background: red;
-      margin: 100px auto;
+    #box {
+      width: 200px;
+      height: 200px;
+      background-color: red;
+      margin: 20px auto;
+      display: none;
+      cursor: pointer;
+    }
+    #logo {
+      width: 100px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Reaction Test ⚡</h1>
-  <p>Click as soon as it turns green!</p>
-  <div id="screen"></div>
+
+  <img id="logo" src="https://cdn-icons-png.flaticon.com/512/3767/3767084.png" alt="Reaction Logo">
+  <h1>Reaction Time Game ⏱️</h1>
+  <p>Click the box as fast as you can when it appears!</p>
+  <h2 id="level">Level: 1</h2>
+  <h3 id="message">Click "Start" to begin</h3>
+  <div id="box"></div>
+  <h3 id="time"></h3>
+  <button onclick="startGame()">Start</button>
 
   <script>
-    let screen = document.getElementById("screen");
-    setTimeout(() => {
-      screen.style.background = "green";
-      screen.onclick = () => alert("Nice reaction!");
-    }, Math.random() * 5000 + 2000);
+    let start, end;
+    let level = 1;
+    let delay;
+    const box = document.getElementById("box");
+    const message = document.getElementById("message");
+    const time = document.getElementById("time");
+    const levelText = document.getElementById("level");
+
+    function showBox() {
+      delay = Math.random() * 2000 + 1000;
+      setTimeout(() => {
+        box.style.display = "block";
+        box.style.backgroundColor = getRandomColor();
+        start = Date.now();
+      }, delay);
+    }
+
+    function getRandomColor() {
+      const colors = ["red", "blue", "green", "yellow", "purple", "orange"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    box.onclick = function () {
+      end = Date.now();
+      const reactionTime = ((end - start) / 1000).toFixed(3);
+      message.textContent = `Great! Your time: ${reactionTime} sec`;
+      box.style.display = "none";
+      time.textContent = "";
+      level++;
+      levelText.textContent = `Level: ${level}`;
+      showBox(); // go to next level
+    };
+
+    function startGame() {
+      level = 1;
+      levelText.textContent = `Level: ${level}`;
+      message.textContent = "Wait for the box...";
+      time.textContent = "";
+      showBox();
+    }
   </script>
 </body>
 </html>
