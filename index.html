@@ -1,92 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gurman Games</title>
+  <meta charset="UTF-8">
+  <title>Gurman's Game World</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 0;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
-    }
-    header {
-      background: #333;
+      padding: 40px;
       color: white;
-      padding: 20px;
     }
-    nav a {
-      margin: 0 15px;
-      color: white;
-      text-decoration: none;
+    h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px #000;
     }
-    .games {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 20px;
-      padding: 10px;
+    p {
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
     }
     .game {
-      background: white;
-      border: 1px solid #ccc;
-      margin: 10px;
-      padding: 15px;
-      width: 250px;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-      border-radius: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 15px;
+      transition: transform 0.3s;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
-    .game h3 {
-      margin-top: 0;
+    .game:hover {
+      transform: scale(1.05);
+      background-color: rgba(255, 255, 255, 0.3);
     }
     .game a {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 15px;
-      background: #28a745;
-      color: white;
       text-decoration: none;
-      border-radius: 5px;
-      transition: background 0.3s;
-    }
-    .game a:hover {
-      background: #218838;
-    }
-    footer {
-      background: #222;
-      color: white;
-      padding: 15px;
-      margin-top: 30px;
+      font-size: 20px;
+      color: #fff;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to Gurman Games</h1>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Top Games</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
+  <h1>🎮 Welcome to Gurman's Game World 🎮</h1>
+  <p>Play exciting, unlimited-level games like cricket, puzzles, catchers, memory, and more!</p>
 
-  <section class="games">
-    <div class="game">
-      <h3>Game 1</h3>
-      <p>Simple fun game</p>
-      <a href="Game1.html">Play Now</a>
-    </div>
-    <div class="game">
-      <h3>Game 2</h3>
-      <p>Adventure game</p>
-      <a href="Game2.html">Play Now</a>
-    </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Gurman Games. All rights reserved.</p>
-  </footer>
+  <div class="game-list">
+    <div class="game"><a href="index.html">Game 1: Simple Clicker</a></div>
+    <div class="game"><a href="game2.html">Game 2: Catch Adventure</a></div>
+    <div class="game"><a href="game3.html">Game 3: Puzzle Master</a></div>
+    <div class="game"><a href="game4.html">Game 4: Speed Click</a></div>
+    <div class="game"><a href="game5.html">Game 5: Memory Cards</a></div>
+    <div class="game"><a href="game6.html">Game 6: Reaction Test</a></div>
+    <div class="game"><a href="game7.html">Game 7: Color Jump</a></div>
+    <div class="game"><a href="game8.html">Game 8: Cricket Blast 🏏</a></div>
+    <div class="game"><a href="game9.html">Game 9: Dodge the Ball</a></div>
+    <div class="game"><a href="game10.html">Game 10: Target Shooter</a></div>
+    <div class="game"><a href="game11.html">Game 11: Maze Escape</a></div>
+    <div class="game"><a href="game12.html">Game 12: Infinite Runner</a></div>
+  </div>
 </body>
 </html>
