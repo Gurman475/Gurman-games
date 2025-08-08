@@ -1,17 +1,140 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dodge the Ball</title>
+  <meta charset="UTF-8">
+  <title>Game 9: Maze Escape</title>
   <style>
     body {
-      background: #f3e5f5;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      font-family: Arial, sans-serif;
+      color: white;
+      margin: 0;
+      overflow: hidden;
       text-align: center;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: 2rem;
+    }
+
+    #maze {
+      position: relative;
+      margin: 20px auto;
+      width: 320px;
+      height: 320px;
+      background-color: #f0f0f0;
+      border: 5px solid white;
+      box-shadow: 0 0 10px #000;
+    }
+
+    .wall {
+      position: absolute;
+      background-color: crimson;
+    }
+
+    #player {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: limegreen;
+      z-index: 10;
+      border-radius: 50%;
+    }
+
+    #goal {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: gold;
+      right: 0;
+      bottom: 0;
+    }
+
+    .game-over {
+      font-size: 1.5rem;
+      margin-top: 20px;
+      color: yellow;
     }
   </style>
 </head>
 <body>
-  <h1>Dodge the Ball 🔵</h1>
-  <p>Move left and right to dodge!</p>
-  <p>Game coming soon...</p>
+
+<h1>🧩 Maze Escape</h1>
+<div id="maze">
+  <div id="player" style="top: 0px; left: 0px;"></div>
+  <div id="goal"></div>
+
+  <!-- Maze walls -->
+  <div class="wall" style="top: 40px; left: 0px; width: 300px; height: 10px;"></div>
+  <div class="wall" style="top: 80px; left: 20px; width: 10px; height: 100px;"></div>
+  <div class="wall" style="top: 180px; left: 0px; width: 250px; height: 10px;"></div>
+  <div class="wall" style="top: 120px; left: 150px; width: 10px; height: 100px;"></div>
+  <div class="wall" style="top: 220px; left: 100px; width: 10px; height: 80px;"></div>
+  <div class="wall" style="top: 300px; left: 0px; width: 300px; height: 10px;"></div>
+</div>
+
+<div id="message" class="game-over"></div>
+
+<script>
+  const player = document.getElementById('player');
+  const walls = document.querySelectorAll('.wall');
+  const goal = document.getElementById('goal');
+  const message = document.getElementById('message');
+
+  let x = 0, y = 0;
+
+  function movePlayer(dx, dy) {
+    const newX = x + dx;
+    const newY = y + dy;
+
+    player.style.left = newX + 'px';
+    player.style.top = newY + 'px';
+
+    const playerRect = player.getBoundingClientRect();
+    const goalRect = goal.getBoundingClientRect();
+
+    // Collision detection with walls
+    for (let wall of walls) {
+      const wallRect = wall.getBoundingClientRect();
+      if (
+        playerRect.left < wallRect.right &&
+        playerRect.right > wallRect.left &&
+        playerRect.top < wallRect.bottom &&
+        playerRect.bottom > wallRect.top
+      ) {
+        message.textContent = '🚫 You hit a wall! Game Over.';
+        document.removeEventListener('keydown', control);
+        return;
+      }
+    }
+
+    // Win detection
+    if (
+      playerRect.left < goalRect.right &&
+      playerRect.right > goalRect.left &&
+      playerRect.top < goalRect.bottom &&
+      playerRect.bottom > goalRect.top
+    ) {
+      message.textContent = '🎉 You Escaped the Maze!';
+      document.removeEventListener('keydown', control);
+    }
+
+    x = newX;
+    y = newY;
+  }
+
+  function control(e) {
+    switch (e.key) {
+      case 'ArrowUp': movePlayer(0, -10); break;
+      case 'ArrowDown': movePlayer(0, 10); break;
+      case 'ArrowLeft': movePlayer(-10, 0); break;
+      case 'ArrowRight': movePlayer(10, 0); break;
+    }
+  }
+
+  document.addEventListener('keydown', control);
+</script>
+
 </body>
 </html>
