@@ -1,17 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Target Shooter</title>
+  <meta charset="UTF-8">
+  <title>Game 10: Fruit Slice</title>
   <style>
     body {
-      background: #bbdefb;
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #ff9966, #ff5e62);
+      color: white;
+    }
+
+    h1 {
       text-align: center;
+      padding: 10px;
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    canvas {
+      display: block;
+      margin: auto;
+      background-color: #222;
+      border: 5px solid white;
+    }
+
+    #score {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Target Shooter 🎯</h1>
-  <p>Click on targets fast!</p>
-  <p>Game coming soon...</p>
+
+<h1>🍉 Fruit Slice</h1>
+<canvas id="gameCanvas" width="400" height="600"></canvas>
+<div id="score">Score: 0</div>
+
+<script>
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let fruits = [];
+  let score = 0;
+
+  function randomFruit() {
+    const colors = ['#FF0000', '#00FF00', '#FFFF00', '#FF00FF', '#FFA500'];
+    return {
+      x: Math.random() * 360 + 20,
+      y: 600,
+      r: 20,
+      speedY: -Math.random() * 4 - 3,
+      speedX: (Math.random() - 0.5) * 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      sliced: false
+    };
+  }
+
+  function drawFruit(fruit) {
+    ctx.beginPath();
+    ctx.arc(fruit.x, fruit.y, fruit.r, 0, Math.PI * 2);
+    ctx.fillStyle = fruit.color;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  function updateFruits() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    fruits.forEach((fruit, index) => {
+      fruit.x += fruit.speedX;
+      fruit.y += fruit.speedY;
+      fruit.speedY += 0.1; // gravity
+
+      if (!fruit.sliced) drawFruit(fruit);
+
+      if (fruit.y > 610) fruits.splice(index, 1); // missed fruit
+    });
+
+    document.getElementById('score').innerText = `Score: ${score}`;
+  }
+
+  function gameLoop() {
+    updateFruits();
+    requestAnimationFrame(gameLoop);
+  }
+
+  function spawnFruits() {
+    fruits.push(randomFruit());
+    setTimeout(spawnFruits, Math.random() * 1000 + 500);
+  }
+
+  canvas.addEventListener('click', function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    fruits.forEach(fruit => {
+      const dist = Math.hypot(fruit.x - clickX, fruit.y - clickY);
+      if (dist < fruit.r) {
+        fruit.sliced = true;
+        score++;
+      }
+    });
+  });
+
+  // Start Game
+  spawnFruits();
+  gameLoop();
+</script>
+
 </body>
 </html>
