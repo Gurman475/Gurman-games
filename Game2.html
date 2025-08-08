@@ -1,55 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Adventure Game</title>
+  <meta charset="UTF-8">
+  <title>Game 2: Catch Adventure</title>
   <style>
-    body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
-    #circle {
-      width: 50px; height: 50px;
-      background-color: red;
+    body {
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+      background: radial-gradient(circle, #fbc2eb, #a6c1ee);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #fff;
+    }
+    h1 {
+      font-size: 2.5em;
+      padding: 20px;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    #basket {
+      width: 120px;
+      height: 40px;
+      background: #00c9a7;
+      border-radius: 20px;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    #fruit {
+      width: 40px;
+      height: 40px;
+      background: yellow;
       border-radius: 50%;
       position: absolute;
-      top: 100px; left: 100px;
-      cursor: pointer;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: background 0.3s ease;
     }
     #score {
-      position: fixed;
+      position: absolute;
       top: 10px;
-      left: 10px;
-      font-size: 24px;
-      color: blue;
-    }
-    a {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      font-size: 16px;
-      background: #eee;
-      padding: 5px 10px;
-      border-radius: 5px;
-      text-decoration: none;
-      color: black;
+      right: 20px;
+      font-size: 1.5em;
+      color: #fff;
     }
   </style>
 </head>
 <body>
+  <h1>🍎 Catch Adventure 🍌</h1>
+  <p>Move the basket to catch the falling fruits!</p>
   <div id="score">Score: 0</div>
-  <div id="circle" onclick="moveCircle()"></div>
-  <a href="index.html">Back to Simple Game</a>
+  <div id="basket"></div>
+  <div id="fruit"></div>
 
   <script>
+    const fruit = document.getElementById("fruit");
+    const basket = document.getElementById("basket");
+    const scoreDisplay = document.getElementById("score");
     let score = 0;
-    const circle = document.getElementById("circle");
-    const scoreBox = document.getElementById("score");
 
-    function moveCircle() {
-      score++;
-      scoreBox.innerText = "Score: " + score;
-      const x = Math.random() * (window.innerWidth - 50);
-      const y = Math.random() * (window.innerHeight - 50);
-      circle.style.left = x + "px";
-      circle.style.top = y + "px";
+    document.addEventListener("mousemove", (e) => {
+      const x = e.clientX;
+      basket.style.left = (x - basket.offsetWidth / 2) + "px";
+    });
+
+    function dropFruit() {
+      let x = Math.random() * (window.innerWidth - 40);
+      fruit.style.left = x + "px";
+      fruit.style.top = "0px";
+      fruit.style.background = getRandomColor();
+
+      const dropSpeed = 5;
+      const interval = setInterval(() => {
+        let top = parseInt(fruit.style.top);
+        fruit.style.top = (top + dropSpeed) + "px";
+
+        // Check collision
+        let fruitRect = fruit.getBoundingClientRect();
+        let basketRect = basket.getBoundingClientRect();
+
+        if (
+          fruitRect.bottom >= basketRect.top &&
+          fruitRect.left < basketRect.right &&
+          fruitRect.right > basketRect.left
+        ) {
+          clearInterval(interval);
+          score++;
+          scoreDisplay.textContent = "Score: " + score;
+          dropFruit();
+        } else if (top > window.innerHeight) {
+          clearInterval(interval);
+          score = 0;
+          scoreDisplay.textContent = "Score: " + score;
+          dropFruit();
+        }
+      }, 20);
     }
+
+    function getRandomColor() {
+      const colors = ["red", "yellow", "lime", "pink", "orange", "cyan"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Start the game
+    dropFruit();
   </script>
 </body>
 </html>
