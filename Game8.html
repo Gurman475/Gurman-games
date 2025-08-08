@@ -1,18 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Cricket Blast</title>
+  <meta charset="UTF-8">
+  <title>Game 8: Typing Ninja</title>
   <style>
     body {
-      background: #c8e6c9;
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      color: #fff;
+      overflow: hidden;
       text-align: center;
-      font-family: Arial;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2.5rem;
+    }
+
+    #score, #timer {
+      font-size: 1.5rem;
+      margin: 10px;
+    }
+
+    .letter {
+      position: absolute;
+      font-size: 3rem;
+      color: #fff;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px #000;
+      pointer-events: none;
+    }
+
+    .game-over {
+      font-size: 2rem;
+      color: darkred;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Cricket Blast 🏏</h1>
-  <p>Hit 4s and 6s to score big!</p>
-  <p>Game coming soon...</p>
+
+  <h1>⌨️ Typing Ninja</h1>
+  <div id="score">Score: 0</div>
+  <div id="timer">Time Left: 30s</div>
+
+  <script>
+    let score = 0;
+    let timeLeft = 30;
+    let gameInterval;
+    let countdown;
+
+    function createLetter() {
+      const letter = document.createElement('div');
+      letter.className = 'letter';
+      const randomChar = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      letter.textContent = randomChar;
+      letter.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+      letter.style.top = '-50px';
+
+      document.body.appendChild(letter);
+
+      let fallSpeed = 2;
+      const fall = setInterval(() => {
+        const top = parseFloat(letter.style.top);
+        if (top >= window.innerHeight - 60) {
+          clearInterval(fall);
+          letter.remove();
+        } else {
+          letter.style.top = (top + fallSpeed) + 'px';
+        }
+      }, 20);
+
+      letter.dataset.char = randomChar;
+
+      setTimeout(() => {
+        if (document.body.contains(letter)) {
+          letter.remove();
+        }
+      }, 6000);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const letters = document.querySelectorAll('.letter');
+      letters.forEach(letter => {
+        if (letter.dataset.char.toLowerCase() === e.key.toLowerCase()) {
+          score++;
+          document.getElementById('score').textContent = `Score: ${score}`;
+          letter.remove();
+        }
+      });
+    });
+
+    function startGame() {
+      gameInterval = setInterval(createLetter, 700);
+      countdown = setInterval(() => {
+        timeLeft--;
+        document.getElementById('timer').textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(gameInterval);
+          clearInterval(countdown);
+          document.querySelectorAll('.letter').forEach(l => l.remove());
+          const gameOver = document.createElement('div');
+          gameOver.classList.add('game-over');
+          gameOver.innerHTML = `⏱️ Game Over!<br>Your Score: ${score}`;
+          document.body.appendChild(gameOver);
+        }
+      }, 1000);
+    }
+
+    window.onload = startGame;
+  </script>
+
 </body>
 </html>
