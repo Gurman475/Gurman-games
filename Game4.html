@@ -1,41 +1,122 @@
-<!DOCTYPE html>
-<html>
+<!-- Game 1: Simple Clicker --><!DOCTYPE html><html lang="en">
 <head>
-  <title>Speed Click</title>
+  <meta charset="UTF-8">
+  <title>Game 1: Simple Clicker</title>
   <style>
     body {
-      background: #ffe4e1;
       text-align: center;
-      font-family: sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      color: #fff;
+      font-family: 'Comic Sans MS', sans-serif;
     }
-    #box {
-      width: 100px;
-      height: 100px;
-      background: red;
-      position: absolute;
-      display: none;
+    #score {
+      font-size: 2em;
+      margin: 20px;
+      color: #333;
+    }
+    button {
+      padding: 20px 40px;
+      font-size: 24px;
+      border: none;
+      background: #ff6f61;
+      color: white;
+      border-radius: 15px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    button:hover {
+      background: #ff3b3f;
     }
   </style>
 </head>
 <body>
-  <h1>Speed Click 🎯</h1>
-  <p>Click the box before it disappears!</p>
-  <div id="box"></div>
-
+  <h1>🎯 Simple Clicker 🎯</h1>
+  <p>Click as fast as you can to increase your score and unlock colorful effects!</p>
+  <div id="score">Score: 0</div>
+  <button onclick="increaseScore()">🎉 Click Me! 🎉</button>
   <script>
-    let box = document.getElementById("box");
-    function moveBox() {
-      let x = Math.random() * 300;
-      let y = Math.random() * 300;
-      box.style.left = x + "px";
-      box.style.top = y + "px";
-      box.style.display = "block";
+    let score = 0;
+    function increaseScore() {
+      score++;
+      document.body.style.background = getRandomGradient();
+      document.getElementById('score').innerText = 'Score: ' + score;
     }
-    box.onclick = function () {
-      box.style.display = "none";
-      setTimeout(moveBox, 1000);
-    };
-    setTimeout(moveBox, 1000);
+    function getRandomGradient() {
+      const gradients = [
+        'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+        'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+        'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)',
+        'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
+        'linear-gradient(135deg, #fccb90 0%, #d57eeb 100%)'
+      ];
+      return gradients[Math.floor(Math.random() * gradients.length)];
+    }
+  </script>
+</body>
+</html><!-- Game 2: Catch Adventure --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game 2: Catch Adventure</title>
+  <style>
+    body {
+      text-align: center;
+      background: radial-gradient(circle, #fbc2eb, #a6c1ee);
+      color: #fff;
+      font-family: 'Comic Sans MS', sans-serif;
+      overflow: hidden;
+    }
+    #falling {
+      width: 40px;
+      height: 40px;
+      background: yellow;
+      border-radius: 50%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: background 0.3s;
+    }
+    #basket {
+      width: 120px;
+      height: 40px;
+      background: #00c9a7;
+      border-radius: 20px;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍎 Catch Adventure 🍌</h1>
+  <p>Move the basket to catch falling fruits!</p>
+  <div id="falling"></div>
+  <div id="basket"></div>
+  <script>
+    let falling = document.getElementById('falling');
+    let basket = document.getElementById('basket');
+    let fallInterval = setInterval(() => {
+      let top = parseInt(window.getComputedStyle(falling).top);
+      falling.style.top = (top + 5) + 'px';
+      if (top > window.innerHeight - 80) {
+        falling.style.top = '0px';
+        falling.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+        falling.style.background = getRandomColor();
+      }
+    }, 40);
+    document.addEventListener('mousemove', (e) => {
+      basket.style.left = (e.clientX - 60) + 'px';
+    });
+    function getRandomColor() {
+      const colors = ['red', 'yellow', 'lime', 'orange', 'pink'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
   </script>
 </body>
 </html>
