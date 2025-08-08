@@ -1,17 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Infinite Runner</title>
+  <meta charset="UTF-8" />
+  <title>Game 12: Fruit Catcher</title>
   <style>
     body {
-      background: #ffe0b2;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #fbc2eb, #a6c1ee);
+      font-family: 'Comic Sans MS', cursive;
+      overflow: hidden;
+    }
+
+    h1 {
       text-align: center;
+      color: #fff;
+      margin-top: 10px;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 100vw;
+      height: 90vh;
+      border-top: 5px solid white;
+    }
+
+    #basket {
+      width: 100px;
+      height: 50px;
+      position: absolute;
+      bottom: 0;
+      background-color: brown;
+      border-radius: 0 0 20px 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .fruit {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 0;
+      font-size: 25px;
+    }
+
+    #scoreBoard {
+      text-align: center;
+      color: white;
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>Infinite Runner 🏃‍♂️</h1>
-  <p>Jump obstacles. Run forever!</p>
-  <p>Game coming soon...</p>
+
+  <h1>🍓 Fruit Catcher 🍌</h1>
+  <div id="scoreBoard">Score: 0 | Missed: 0</div>
+  <div id="gameArea">
+    <div id="basket"></div>
+  </div>
+
+  <script>
+    const basket = document.getElementById('basket');
+    const gameArea = document.getElementById('gameArea');
+    const scoreBoard = document.getElementById('scoreBoard');
+    let score = 0;
+    let missed = 0;
+
+    const fruits = ['🍎', '🍌', '🍓', '🍇', '🍊'];
+
+    function createFruit() {
+      const fruit = document.createElement('div');
+      fruit.classList.add('fruit');
+      fruit.innerText = fruits[Math.floor(Math.random() * fruits.length)];
+      fruit.style.left = Math.random() * (window.innerWidth - 30) + 'px';
+      gameArea.appendChild(fruit);
+
+      let top = 0;
+      const fall = setInterval(() => {
+        top += 5;
+        fruit.style.top = top + 'px';
+
+        const fruitRect = fruit.getBoundingClientRect();
+        const basketRect = basket.getBoundingClientRect();
+
+        if (
+          fruitRect.bottom >= basketRect.top &&
+          fruitRect.left < basketRect.right &&
+          fruitRect.right > basketRect.left
+        ) {
+          clearInterval(fall);
+          fruit.remove();
+          score++;
+          scoreBoard.textContent = `Score: ${score} | Missed: ${missed}`;
+        }
+
+        if (top > window.innerHeight) {
+          clearInterval(fall);
+          fruit.remove();
+          missed++;
+          scoreBoard.textContent = `Score: ${score} | Missed: ${missed}`;
+          if (missed >= 5) {
+            alert('Game Over! Final Score: ' + score);
+            location.reload();
+          }
+        }
+      }, 30);
+    }
+
+    setInterval(createFruit, 1000);
+
+    document.addEventListener('mousemove', (e) => {
+      basket.style.left = e.clientX - 50 + 'px';
+    });
+  </script>
 </body>
 </html>
